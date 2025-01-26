@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,11 +21,13 @@ public class AttendanceApplication implements CommandLineRunner {
 
 	private final AttendRepository attendRepository;
 	private final EmployeeRepository employeeRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public AttendanceApplication(AttendRepository attendRepository, EmployeeRepository employeeRepository) {
+	public AttendanceApplication(AttendRepository attendRepository, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
 		this.attendRepository = attendRepository;
 		this.employeeRepository = employeeRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public static void main(String[] args) {
@@ -39,14 +42,15 @@ public class AttendanceApplication implements CommandLineRunner {
 //				new Attendance("Michal Rostislav Rabinský", true, 8.5F, "10-12-2024 05:55:11"),
 //				new Attendance("Milan Audy", false, 0F, "10-11-2024 05:00:11")
 		List<Employee> employees = new ArrayList<>(List.of(
-				new Employee("pepazdepa","Pepa", "Vomáčka", "developer"),
-				new Employee("coolboy","Petr", "Kubánek", "boss"),
-				new Employee("justcounted","Iv", "Vacková", "student")
-		));
+				new Employee("pepazdepa","Pepa", "Vomáčka", "developer", passwordEncoder.encode("123")),
+				new Employee("coolboy","Petr", "Kubánek", "boss",passwordEncoder.encode ("123")),
+				new Employee("justcounted","Iv", "Vacková", "student", passwordEncoder.encode("123"))));
+
 //		for (Attendance attendance : attendances) {
 //			attendRepository.save(attendance);
 //		}
 		for (Employee employee : employees){
+			employee.setRoles(List.of("ROLE_ADMIN", "ROLE_EMPLOYEE"));
 			employeeRepository.save(employee);
 		}
 		List<Attendance> attendances = new ArrayList<>(List.of(
