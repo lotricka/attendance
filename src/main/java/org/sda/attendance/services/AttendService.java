@@ -11,11 +11,18 @@ public interface AttendService {
 
     public void saveAttendance(Attendance attendance);
 
+    public void deleteAttendance(Long id);
+
     Attendance getAttendById(Long id);
 
     List<Attendance> getIsPresent();
 
     List<Attendance> getAttendanceByDate(String date);
+
+    List<Attendance> getAttendanceByEmployee(String search);
+
+    List<Attendance> getAllSorted(String parameter);
+
 
 //    List<Attendance> getAttendanceByName(String name);
 
