@@ -10,8 +10,11 @@
 <main>
     <form th:action="@{/add-attendance}" method="post">
         <div>
-            <label for="name">Name: </label>
-            <input id="name" type="text" name="name">
+            <label for="employeeSelect">Select employee:</label>
+            <select name="employeeId" id="employeeSelect" required>
+                <option value="" disabled selected>Select an employee</option>
+                <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.firstName + ' ' + employee.lastName}"></option>
+            </select>
         </div>
         <div>
             <label for="isPresent">Is present: </label>
@@ -23,7 +26,7 @@
         </div>
         <div>
             <label for="date">Date: </label>
-            <input id="date" type="text"name="date">
+            <input id="date" type="datetime-local"name="date">
         </div>
         <button type="submit">Add present</button>
     </form>

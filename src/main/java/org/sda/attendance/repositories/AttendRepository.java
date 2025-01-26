@@ -19,5 +19,7 @@ public interface AttendRepository extends JpaRepository<Attendance, Long> {
 //    List<Attendance> findAttendanceByNameContainsIgnoreCase(String s);
     @Query(value = "SELECT * from attendance WHERE date > :date AND date < :date2", nativeQuery = true)
     List<Attendance> findAttendanceByDate(@Param("date") LocalDateTime d, @Param("date2") LocalDateTime d2);
+
+    List<Attendance> findAttendancesByEmployee_FirstNameContainsIgnoreCaseOrEmployee_LastNameContainsIgnoreCase(String s, String s2);
 }
 
